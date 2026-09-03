@@ -1,0 +1,502 @@
+{
+  "info": {
+    "_postman_id": "6b0a46fd-1907-439b-a9f5-afece7e9ab3c",
+    "name": "MDM Hub API",
+    "description": "API collection for Master Data Management Hub (Source Systems, Parties, Cross-References, and Merge operations).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "1830851"
+  },
+  "item": [
+    {
+      "name": "Source Systems",
+      "item": [
+        {
+          "name": "Create Source System",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"CRM_SALESFORCE\",\n  \"name\": \"Salesforce CRM\",\n  \"description\": \"Primary enterprise CRM system for customer accounts\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/source-systems",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "source-systems"
+              ]
+            },
+            "description": "Registers a new upstream source system feed."
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Source Systems",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/source-systems",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "source-systems"
+              ]
+            },
+            "description": "Retrieves the list of all registered source systems."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Source System By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/source-systems/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "source-systems",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "{{sourceSystemId}}",
+                  "description": "Source System primary key ID"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Source System",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"CRM_SALESFORCE\",\n  \"name\": \"Salesforce Enterprise CRM\",\n  \"description\": \"Updated description for primary enterprise CRM\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/source-systems/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "source-systems",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "{{sourceSystemId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Source System",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/source-systems/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "source-systems",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "{{sourceSystemId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Parties",
+      "item": [
+        {
+          "name": "Create Party (Individual)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"sourceSystemCode\": \"CRM\",\n    \"sourceRecordId\": \"1\",\n    \"partyType\": \"INDIVIDUAL\",\n    \"firstName\": \"Alex\",\n    \"lastName\": \"Morgan\",\n    \"organizationName\": null,\n    \"email\": \"alex.morgan@example.com\",\n    \"phone\": \"+1-555-019-2834\",\n    \"addressLine1\": \"100 Market Street, Suite 400\",\n    \"city\": \"San Francisco\",\n    \"state\": \"CA\",\n    \"postalCode\": \"94105\",\n    \"country\": \"USA\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/parties",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "parties"
+              ]
+            },
+            "description": "Creates an individual party record."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Party (Organization)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"partyType\": \"ORGANIZATION\",\n  \"firstName\": null,\n  \"lastName\": null,\n  \"organizationName\": \"Acme Corp Technologies\",\n  \"email\": \"contact@acmecorp.com\",\n  \"phone\": \"+1-555-010-9988\",\n  \"addressLine1\": \"500 Technology Way\",\n  \"city\": \"Seattle\",\n  \"state\": \"WA\",\n  \"postalCode\": \"98101\",\n  \"country\": \"USA\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/parties",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "parties"
+              ]
+            },
+            "description": "Creates an organization party record."
+          },
+          "response": []
+        },
+        {
+          "name": "Find All Golden Records (Paged)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/parties?page=0&size=20&sort=createdAt,desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "parties"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0",
+                  "description": "Page number (zero-based)"
+                },
+                {
+                  "key": "size",
+                  "value": "20",
+                  "description": "Number of records per page"
+                },
+                {
+                  "key": "sort",
+                  "value": "createdAt,desc",
+                  "description": "Sorting criteria format: property(,asc|desc)"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Party By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/parties/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "parties",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "{{partyId}}",
+                  "description": "UUID of the Party"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Lookup Party By Source Reference",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/parties/lookup?sourceSystem=CRM_SALESFORCE&sourceRecordId=SF-100293",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "parties",
+                "lookup"
+              ],
+              "query": [
+                {
+                  "key": "sourceSystem",
+                  "value": "CRM_SALESFORCE",
+                  "description": "Code of the source system"
+                },
+                {
+                  "key": "sourceRecordId",
+                  "value": "SF-100293",
+                  "description": "External ID in the source system"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Party",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"partyType\": \"INDIVIDUAL\",\n  \"firstName\": \"Alex\",\n  \"lastName\": \"Morgan-Smith\",\n  \"organizationName\": null,\n  \"email\": \"alex.smith@example.com\",\n  \"phone\": \"+1-555-019-2834\",\n  \"addressLine1\": \"100 Market Street, Suite 500\",\n  \"city\": \"San Francisco\",\n  \"state\": \"CA\",\n  \"postalCode\": \"94105\",\n  \"country\": \"USA\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/parties/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "parties",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "{{partyId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Party",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/parties/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "parties",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "{{partyId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Cross Reference",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceSystemCode\": \"CRM_SALESFORCE\",\n  \"sourceRecordId\": \"SF-100293\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/parties/:id/cross-references",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "parties",
+                ":id",
+                "cross-references"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "{{partyId}}"
+                }
+              ]
+            },
+            "description": "Links an external system record identifier to the given party."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Cross References For Party",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/parties/:id/cross-references",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "parties",
+                ":id",
+                "cross-references"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "9dd1c05b-53a1-4de8-be5a-11cfeaec3002"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Merge Duplicate Party into Survivor",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/parties/:survivorId/merge/:duplicateId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "parties",
+                ":survivorId",
+                "merge",
+                ":duplicateId"
+              ],
+              "variable": [
+                {
+                  "key": "survivorId",
+                  "value": "9dd1c05b-53a1-4de8-be5a-11cfeaec3002",
+                  "description": "UUID of the surviving golden record"
+                },
+                {
+                  "key": "duplicateId",
+                  "value": "f87b7108-7ad6-4274-a246-62a6854976db",
+                  "description": "UUID of the duplicate record being retired/merged"
+                }
+              ]
+            },
+            "description": "Executes survivorship rules: moves cross-references to the survivor and updates the duplicate party status to MERGED."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "sourceSystemId",
+      "value": "1"
+    },
+    {
+      "key": "partyId",
+      "value": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
+    },
+    {
+      "key": "survivorPartyId",
+      "value": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d"
+    },
+    {
+      "key": "duplicatePartyId",
+      "value": "f6e5d4c3-b2a1-0f9e-8d7c-6b5a4f3e2d1c"
+    }
+  ]
+}
