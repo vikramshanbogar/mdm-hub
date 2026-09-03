@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mdm-hub-postgres-secret
+type: Opaque
+stringData:
+  POSTGRES_DB: mdmhub
+  POSTGRES_USER: mdmhub
+  POSTGRES_PASSWORD: mdmhub
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mdm-hub-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mdm-hub-postgres
+  template:
+    metadata:
+      labels:
+        app: mdm-hub-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          envFrom:
+            - secretRef:
+                name: mdm-hub-postgres-secret
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        # emptyDir is fine for local learning/dev - data is lost when the pod
+        # is recreated. Swap for a PersistentVolumeClaim for anything durable.
+        - name: pgdata
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mdm-hub-postgres
+spec:
+  selector:
+    app: mdm-hub-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432

@@ -1,0 +1,12 @@
+package com.vikram.mdmhub;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MdmHubApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(MdmHubApplication.class, args);
+    }
+}

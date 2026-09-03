@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: mdm-hub
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:mdmhub}
+    username: ${DB_USER:mdmhub}
+    password: ${DB_PASSWORD:mdmhub}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: false
+
+server:
+  port: ${SERVER_PORT:8081}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+logging:
+  level:
+    com.vikram.mdmhub: INFO
