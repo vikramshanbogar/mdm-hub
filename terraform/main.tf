@@ -25,7 +25,7 @@ provider "aws" {
 variable "aws_region" {
   description = "AWS Region to deploy to"
   type        = string
-  default     = "us-east-1"
+  default     = "ap-south-1"
 }
 
 data "aws_availability_zones" "available" {
@@ -283,7 +283,7 @@ resource "aws_lb_target_group" "main" {
   protocol    = "HTTP"
   vpc_id      = aws_vpc.main.id
   target_type = "ip"
-
+  deregistration_delay = 30   # add this line (default is 300)
   health_check {
     path                = "/actuator/health"
     port                = "8080"
